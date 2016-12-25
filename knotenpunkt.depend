@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1482694748 source:f:\users\simon\documents\programmieren\knotenpunkt\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<windows.h>
+	"zim_con.h"
+
+1482079407 source:f:\users\simon\documents\programmieren\knotenpunkt\con_interaction.c
+	<stdio.h>
+	<string.h>
+	<stdarg.h>
+	<stdlib.h>
+	<windows.h>
+
+1476531142 source:f:\users\simon\documents\programmieren\knotenpunkt\res.rc
+
+1482079407 f:\users\simon\documents\programmieren\knotenpunkt\zim_con.h
+
+1482689321 source:f:\users\simon\documents\programmieren\knotenpunkt\network_abstraction.c
+	<stdio.h>
+	<windows.h>
+	"network_abstraction.h"
+
+1482079407 f:\users\simon\documents\programmieren\knotenpunkt\network_abstraction.h
+
