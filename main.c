@@ -5,7 +5,9 @@
 #include <windows.h>
 
 #include "zim_con.h"
+
 #include "constants.h"
+#include "drawer.h"
 
 
 
@@ -59,13 +61,19 @@ int main()
 
     SetConsoleWindowInfo(hDisplayConsole, TRUE, &windowrect);
 
+    CONSOLE_CURSOR_INFO cursorinf;
+    GetConsoleCursorInfo(hDisplayConsole, &cursorinf);
+    cursorinf.bVisible = FALSE;
+    SetConsoleCursorInfo(hDisplayConsole, &cursorinf);
+    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorinf);
+
     SetConsoleActiveScreenBuffer(hDisplayConsole);
 
     system("MODE CON COLS=100 LINES=40");
 
     mdebug("Done.");
 
-    draw_world(0, 0);
+    draw_world(64, 64);
 
     return 0;
 }
