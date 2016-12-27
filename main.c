@@ -8,11 +8,14 @@
 
 #include "constants.h"
 #include "drawer.h"
+#include "physik.h"
 
 
 
 /*          X             Y     */
 block world[WORLD_SIZE_X][WORLD_SIZE_Y];
+
+player self;
 
 HANDLE hDisplayConsole;
 SMALL_RECT windowrect;
@@ -24,6 +27,9 @@ void at_exit(void)
 
 int main()
 {
+    FILETIME last_time, this_time;
+    LONGLONG thistime, lasttime;
+
     mlog("Starting...");
 
     mdebug("Setting atexit() routine...");
@@ -75,5 +81,39 @@ int main()
 
     draw_world(64, 64);
 
+    init_player(&self);
+
+    draw_world(self.pos.X, self.pos.Y);
+
+    mlog("Entering main loop.");
+    /*main loop*/
+    while(!GetAsyncKeyState(VK_ESCAPE)) {
+        GetSystemTimeAsFileTime(&last_time);
+
+        /*TODO calculate physics and move the player accordingly*/
+        /*TODO get the elapsed time during calculation and sleep shorter than
+        50 milliseconds so that the actual updating frequenca is closer to 20Hz*/
+        apply_physics();
+
+        GetSystemTimeAsFileTime(&this_time);
+
+        /* Calculate tick time */
+        thistime = ((LONGLONG)this_time.dwHighDateTime << 32LL) +
+                   (LONGLONG)this_time.dwLowDateTime;
+        lasttime = ((LONGLONG)last_time.dwHighDateTime << 32LL) +
+                   (LONGLONG)last_time.dwLowDateTime;
+
+        if((thistime - lasttime) > 10000 * TICK_TIME_MS) {
+            merror("Ticked: %fms", (thistime - lasttime)/10000.0f);
+            merror("Single tick was longer than %ims!", TICK_TIME_MS);
+            exit(1);
+        }
+        mdebug("Ticked: %fms", (thistime - lasttime)/10000.0f);
+
+        SleepEx(TICK_TIME_MS, FALSE);
+    }
+
+    /*Need to clear the stdin buffer so the "Press any key to continue" stays*/
+    FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
     return 0;
 }

@@ -46,9 +46,17 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="network_abstraction.h" />
+		<Unit filename="physik.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="physik.h" />
 		<Unit filename="res.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="toolbox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="toolbox.h" />
 		<Unit filename="zim_con.h" />
 		<Extensions>
 			<code_completion />
