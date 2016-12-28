@@ -11,7 +11,6 @@
 #include "physik.h"
 
 
-
 /*          X             Y     */
 block world[WORLD_SIZE_X][WORLD_SIZE_Y];
 
@@ -23,6 +22,9 @@ SMALL_RECT windowrect;
 void at_exit(void)
 {
     SetConsoleActiveScreenBuffer(GetStdHandle(STD_OUTPUT_HANDLE));
+    #ifdef RELEASE
+    system("pause");
+    #endif // RELEASE
 }
 
 int main()
@@ -41,6 +43,14 @@ int main()
     for(int i = 0; i < WORLD_SIZE_X; i++) {
         /*one layer of dirt*/
         world[i][WORLD_SIZE_Y / 2].material = DIRT;
+
+        if(i % 3 == 0) {
+            world[i][1 + WORLD_SIZE_Y / 2].material = DIRT;
+        }
+
+        if(i % 3 == 0) {
+            world[i+1][2 + WORLD_SIZE_Y / 2].material = DIRT;
+        }
 
         /*below that stone*/
         for(int n = 0; n < WORLD_SIZE_Y / 2; n++) {
@@ -103,14 +113,14 @@ int main()
         lasttime = ((LONGLONG)last_time.dwHighDateTime << 32LL) +
                    (LONGLONG)last_time.dwLowDateTime;
 
-        if((thistime - lasttime) > 10000 * TICK_TIME_MS) {
-            merror("Ticked: %fms", (thistime - lasttime)/10000.0f);
+        if((thistime - lasttime) > (10000 * TICK_TIME_MS)) {
+            merror("Ticked: %fms", ((double)(thistime - lasttime))/10000.0d);
             merror("Single tick was longer than %ims!", TICK_TIME_MS);
-            exit(1);
+            exit(-123);
         }
-        mdebug("Ticked: %fms", (thistime - lasttime)/10000.0f);
+        mdebug("Ticked: %fms", ((double)(thistime - lasttime))/10000.0d);
 
-        SleepEx(TICK_TIME_MS, FALSE);
+        SleepEx(TICK_TIME_MS - ((thistime - lasttime)/10000), FALSE);
     }
 
     /*Need to clear the stdin buffer so the "Press any key to continue" stays*/

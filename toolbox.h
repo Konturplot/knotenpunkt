@@ -3,5 +3,6 @@
 
 #include <windows.h>
 
+int roundfloat(double number);
 
 #endif // TOOLBOX_H_INCLUDED

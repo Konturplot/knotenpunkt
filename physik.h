@@ -31,6 +31,12 @@ void init_player(player* pl);
  */
 void accel_player(player* pl, v2d acceleration);
 
-WINBOOL move_player(player* pl);
+/** \brief Moves the player according to its speed
+ *
+ * \param pl player* The player to move
+ * \return void
+ *
+ */
+void move_player(player* pl);
 
 #endif // PHYSIK_H_INCLUDED

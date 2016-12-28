@@ -14,8 +14,10 @@
 #define MASK_LEFT 0b0010
 #define MASK_RIGHT 0b0001
 
-#define TICK_TIME_MS 5
+#define TICK_TIME_MS 10
 #define GRAVITY -0.00000980665d
+
+#define WALKING_SPEED 0.06d
 
 enum material_type {AIR=0, DIRT, STONE};
 
