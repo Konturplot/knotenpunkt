@@ -3,8 +3,12 @@
 
 #include <windows.h>
 
-#define WORLD_SIZE_X 128
-#define WORLD_SIZE_Y 128
+#define CHUNK_SIZE_X 16
+#define CHUNK_SIZE_Y 16
+/** MAX_CACHED_CHUNKS should be >= 4 or >= 9 (or even more) depending on the relaion betwen
+ * chunk and display size.
+ */
+#define MAX_CACHED_CHUNKS 20
 
 #define DISPLAY_SIZE_X 100
 #define DISPLAY_SIZE_Y 40
@@ -27,7 +31,13 @@ typedef struct {
 } v2d;
 
 typedef struct {
+    int X;
+    int Y;
+} in2d;
+
+typedef struct {
     enum material_type material;
+    char id;
 } block;
 
 typedef struct {
@@ -35,6 +45,12 @@ typedef struct {
     v2d speed;
     WORD collisions;
 } player;
+
+typedef struct {
+    in2d offset;
+    block data[CHUNK_SIZE_X][CHUNK_SIZE_Y];
+    WINBOOL isloaded;
+} chunk;
 
 
 #endif // CONSTANTS_H_INCLUDED

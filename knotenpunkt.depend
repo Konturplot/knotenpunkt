@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1482871487 source:f:\users\simon\documents\programmieren\knotenpunkt\main.c
+1483154039 source:f:\users\simon\documents\programmieren\knotenpunkt\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdarg.h>
@@ -27,22 +27,24 @@
 
 1482079407 f:\users\simon\documents\programmieren\knotenpunkt\network_abstraction.h
 
-1482885179 f:\users\simon\documents\programmieren\knotenpunkt\constants.h
+1483154740 f:\users\simon\documents\programmieren\knotenpunkt\constants.h
 	<windows.h>
 
-1482886705 source:f:\users\simon\documents\programmieren\knotenpunkt\drawer.c
+1483154048 source:f:\users\simon\documents\programmieren\knotenpunkt\drawer.c
 	<stdlib.h>
 	<windows.h>
+	"worldutils.h"
 	"constants.h"
 
 1482852348 f:\users\simon\documents\programmieren\knotenpunkt\drawer.h
 	<windows.h>
 
-1482885367 source:f:\users\simon\documents\programmieren\knotenpunkt\physik.c
+1483154060 source:f:\users\simon\documents\programmieren\knotenpunkt\physik.c
 	<windows.h>
 	"constants.h"
 	"drawer.h"
 	"physik.h"
+	"worldutils.h"
 
 1482877468 f:\users\simon\documents\programmieren\knotenpunkt\physik.h
 	<windows.h>
@@ -56,5 +58,14 @@
 1482877865 f:\users\simon\documents\programmieren\knotenpunkt\toolbox.h
 	<windows.h>
 
-1482873147 source:f:\users\simon\documents\programmieren\knotenpunkt\worldutils.c
+1483154688 source:f:\users\simon\documents\programmieren\knotenpunkt\worldutils.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<windows.h>
+	"constants.h"
+	"worldutils.h"
+
+1483149016 f:\users\simon\documents\programmieren\knotenpunkt\worldutils.h
+	"constants.h"
 

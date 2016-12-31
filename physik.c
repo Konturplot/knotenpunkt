@@ -3,9 +3,9 @@
 #include "constants.h"
 #include "drawer.h"
 #include "physik.h"
+#include "worldutils.h"
 
 extern player self;
-extern block world[WORLD_SIZE_X][WORLD_SIZE_Y];
 
 /** Timebase for all functions is milliseconds
  * distance base is "blocks" a unit of one character
@@ -86,31 +86,26 @@ void move_player(player* pl)
     pl->pos.X = pl->pos.X + (pl->speed.X * 0.5d * (double) TICK_TIME_MS);
     pl->pos.Y = pl->pos.Y + (pl->speed.Y * 0.5d * (double) TICK_TIME_MS);
 
-    if(pl->pos.X < 0 || pl->pos.Y < 0 || pl->pos.X >= WORLD_SIZE_X
-            || pl->pos.Y >= WORLD_SIZE_Y) {
-        return;
-    }
-
-    if(world[(int) (pl->pos.X)][(int) (pl->pos.Y)].material != AIR) {
+    if(getworldblock((int) (pl->pos.X), (int) (pl->pos.Y)).material != AIR) {
         /*This means a downwards collision*/
         pl->pos.Y = (int) pl->pos.Y + 1;
         self.speed.Y = 0.0d;
         self.collisions = self.collisions | MASK_DOWN;
     }
 
-    if(world[(int) (pl->pos.X)][(int) (pl->pos.Y + 1)].material != AIR) {
+    if(getworldblock((int) (pl->pos.X), (int) (pl->pos.Y + 1)).material != AIR) {
         /*This means an upwards collision*/
         self.speed.Y = 0.0d;
         self.collisions = self.collisions | MASK_UP;
     }
 
-    if(world[(int) (pl->pos.X - 1)][(int) (pl->pos.Y)].material != AIR) {
+    if(getworldblock((int) (pl->pos.X - 1), (int) (pl->pos.Y)).material != AIR) {
         /*This means a left collision*/
         self.speed.X = 0.0d;
         self.collisions = self.collisions | MASK_LEFT;
     }
 
-    if(world[(int) (pl->pos.X + 1)][(int) (pl->pos.Y)].material != AIR) {
+    if(getworldblock((int) (pl->pos.X + 1), (int) (pl->pos.Y)).material != AIR) {
         /*This means a right collision*/
         self.speed.X = 0.0d;
         self.collisions = self.collisions | MASK_RIGHT;

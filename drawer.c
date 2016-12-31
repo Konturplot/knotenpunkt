@@ -2,10 +2,9 @@
 
 #include <windows.h>
 
+#include "worldutils.h"
 #include "constants.h"
 
-
-extern block world[WORLD_SIZE_X][WORLD_SIZE_Y];
 extern player self;
 
 extern HANDLE hDisplayConsole;
@@ -66,14 +65,8 @@ void draw_world(int x, int y)
             int world_x = x + n - (DISPLAY_SIZE_X / 2);
             int world_y = y - i + (DISPLAY_SIZE_Y / 2);
 
-            if((world_x < 0) || (world_x >= WORLD_SIZE_X) || (world_y < 0)
-                    || (world_y >= WORLD_SIZE_Y)) {
-                conattrs[n + (i * DISPLAY_SIZE_X)] = attrs_def;
-                constr[n + (i * DISPLAY_SIZE_X)] = ' ';
-                continue;
-            }
-
-            switch (world[world_x][world_y].material) {
+            block worldblock = getworldblock(world_x, world_y);
+            switch (worldblock.material) {
             case DIRT:
                 conattrs[n + (i * DISPLAY_SIZE_X)] = attrs_green;
                 constr[n + (i * DISPLAY_SIZE_X)] = '#';
@@ -89,6 +82,7 @@ void draw_world(int x, int y)
                 constr[n + (i * DISPLAY_SIZE_X)] = ' ';
                 break;
             }
+            constr[n + (i * DISPLAY_SIZE_X)] = worldblock.id;
         }
     }
 

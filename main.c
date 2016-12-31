@@ -10,10 +10,6 @@
 #include "drawer.h"
 #include "physik.h"
 
-
-/*          X             Y     */
-block world[WORLD_SIZE_X][WORLD_SIZE_Y];
-
 player self;
 
 HANDLE hDisplayConsole;
@@ -37,28 +33,6 @@ int main()
     mdebug("Setting atexit() routine...");
     atexit((void*) at_exit);
     mdebug("Done...");
-
-    mlog("Generating world...");
-
-    for(int i = 0; i < WORLD_SIZE_X; i++) {
-        /*one layer of dirt*/
-        world[i][WORLD_SIZE_Y / 2].material = DIRT;
-
-        if(i % 3 == 0) {
-            world[i][1 + WORLD_SIZE_Y / 2].material = DIRT;
-        }
-
-        if(i % 3 == 0) {
-            world[i+1][2 + WORLD_SIZE_Y / 2].material = DIRT;
-        }
-
-        /*below that stone*/
-        for(int n = 0; n < WORLD_SIZE_Y / 2; n++) {
-            world[i][n].material = STONE;
-        }
-    }
-
-    mdebug("Done.");
 
     mlog("Setting up output...");
 
@@ -100,9 +74,6 @@ int main()
     while(!GetAsyncKeyState(VK_ESCAPE)) {
         GetSystemTimeAsFileTime(&last_time);
 
-        /*TODO calculate physics and move the player accordingly*/
-        /*TODO get the elapsed time during calculation and sleep shorter than
-        50 milliseconds so that the actual updating frequenca is closer to 20Hz*/
         apply_physics();
 
         GetSystemTimeAsFileTime(&this_time);
