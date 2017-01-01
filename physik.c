@@ -25,7 +25,7 @@ void apply_physics(void)
         self.speed.Y = 0.003d;
     }
     /** Move left
-     *
+     * TODO: edge detection for better usability
      */
     if(GetAsyncKeyState(VK_LEFT) && !(self.collisions & MASK_LEFT)) {
         self.speed.X = -WALKING_SPEED;
@@ -33,7 +33,7 @@ void apply_physics(void)
         self.speed.X = 0.0d;
     }
     /** Move right
-     *
+     * TODO: edge detection for better usability
      */
     if(GetAsyncKeyState(VK_RIGHT) && !(self.collisions & MASK_RIGHT)) {
         self.speed.X = WALKING_SPEED;

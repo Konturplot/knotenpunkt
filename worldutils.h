@@ -5,11 +5,13 @@
 
 block getworldblock(int x, int y);
 
-chunk getcachechunk(in2d offset);
+chunk* getcachechunk(in2d offset);
 
-chunk loadchunk(in2d offset);
+chunk* kot(in2d o);
 
-void unloadchunk(chunk tounload);
+void loadchunk(chunk* toload, in2d offset);
+
+void unloadchunk(chunk* tounload);
 
 in2d world2chunk(in2d worldcoord);
 

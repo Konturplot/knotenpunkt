@@ -9,6 +9,9 @@ extern player self;
 
 extern HANDLE hDisplayConsole;
 
+POINT point;
+RECT consolewindoerect;
+
 WINBOOL clear_console(HANDLE hConsole)
 {
     COORD coordinates;
@@ -53,6 +56,8 @@ void draw_world(int x, int y)
     const WORD attrs_player = FOREGROUND_BLUE|BACKGROUND_RED
                               |BACKGROUND_GREEN|BACKGROUND_BLUE
                               |BACKGROUND_INTENSITY;
+    const WORD attrs_highlight = BACKGROUND_RED|BACKGROUND_GREEN|BACKGROUND_BLUE
+                              |BACKGROUND_INTENSITY;
     const WORD attrs_def = FOREGROUND_BLUE|FOREGROUND_GREEN|FOREGROUND_RED;
 
     /* clear_console(hDisplayConsole); */
@@ -69,21 +74,32 @@ void draw_world(int x, int y)
             switch (worldblock.material) {
             case DIRT:
                 conattrs[n + (i * DISPLAY_SIZE_X)] = attrs_green;
-                constr[n + (i * DISPLAY_SIZE_X)] = '#';
                 break;
 
             case STONE:
                 conattrs[n + (i * DISPLAY_SIZE_X)] = attrs_def;
-                constr[n + (i * DISPLAY_SIZE_X)] = '%';
                 break;
 
             default:
                 conattrs[n + (i * DISPLAY_SIZE_X)] = attrs_def;
-                constr[n + (i * DISPLAY_SIZE_X)] = ' ';
                 break;
             }
             constr[n + (i * DISPLAY_SIZE_X)] = worldblock.id;
         }
+    }
+
+    /*highlight the mouse position*/
+    GetCursorPos(&point);
+    GetClientRect(GetConsoleWindow(), &consolewindoerect);
+    MapWindowPoints(GetConsoleWindow(), NULL, &consolewindoerect, 2);
+
+    if((point.y >= consolewindoerect.top) && (point.y <= consolewindoerect.bottom)
+            && (point.x >= consolewindoerect.left)
+            && (point.x <= consolewindoerect.right)) {
+        conattrs[(int)((point.x - consolewindoerect.left) * ((float)DISPLAY_SIZE_X /
+                 (consolewindoerect.right - consolewindoerect.left)) + ((int)((
+                             point.y - consolewindoerect.top) * ((float)DISPLAY_SIZE_Y / (consolewindoerect.bottom -
+                                     consolewindoerect.top))) * DISPLAY_SIZE_X))] = attrs_highlight;
     }
 
     /*put the player*/

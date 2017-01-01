@@ -3,12 +3,12 @@
 
 #include <windows.h>
 
-#define CHUNK_SIZE_X 16
-#define CHUNK_SIZE_Y 16
+#define CHUNK_SIZE_X 128
+#define CHUNK_SIZE_Y 128
 /** MAX_CACHED_CHUNKS should be >= 4 or >= 9 (or even more) depending on the relaion betwen
  * chunk and display size.
  */
-#define MAX_CACHED_CHUNKS 20
+#define MAX_CACHED_CHUNKS 10
 
 #define DISPLAY_SIZE_X 100
 #define DISPLAY_SIZE_Y 40
@@ -21,7 +21,7 @@
 #define TICK_TIME_MS 10
 #define GRAVITY -0.00000980665d
 
-#define WALKING_SPEED 0.06d
+#define WALKING_SPEED 0.03d
 
 enum material_type {AIR=0, DIRT, STONE};
 
@@ -49,7 +49,6 @@ typedef struct {
 typedef struct {
     in2d offset;
     block data[CHUNK_SIZE_X][CHUNK_SIZE_Y];
-    WINBOOL isloaded;
 } chunk;
 
 

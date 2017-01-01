@@ -9,18 +9,20 @@
 #include "constants.h"
 #include "drawer.h"
 #include "physik.h"
+#include "worldutils.h"
 
 player self;
 
 HANDLE hDisplayConsole;
 SMALL_RECT windowrect;
 
+
 void at_exit(void)
 {
     SetConsoleActiveScreenBuffer(GetStdHandle(STD_OUTPUT_HANDLE));
-    #ifdef RELEASE
+#ifdef RELEASE
     system("pause");
-    #endif // RELEASE
+#endif // RELEASE
 }
 
 int main()

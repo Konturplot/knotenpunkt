@@ -7,6 +7,8 @@
 #include "constants.h"
 #include "worldutils.h"
 
+chunk cache[MAX_CACHED_CHUNKS];
+
 block getworldblock(int x, int y)
 {
     in2d worldcoord;
@@ -14,41 +16,37 @@ block getworldblock(int x, int y)
     worldcoord.Y = y;
     in2d offset = getchunkoffset(worldcoord);
 
-    return getcachechunk(offset).data[world2chunk(worldcoord).X][world2chunk(
-                worldcoord).Y];
+    worldcoord = world2chunk(worldcoord);
+    return getcachechunk(offset)->data[worldcoord.X][worldcoord.Y];
 }
 
-chunk getcachechunk(in2d offset)
+chunk* getcachechunk(in2d offset)
 {
     static unsigned short numcached;
-    static chunk cache[MAX_CACHED_CHUNKS];
 
     for(int i=0; i < numcached; i++) {
         if((cache[i].offset.X == offset.X) && (cache[i].offset.Y == offset.Y)) {
-            if(cache[i].isloaded) {
-                return cache[i];
-            }
+            return &cache[i];
         }
     }
 
     if(numcached < MAX_CACHED_CHUNKS) {
-        cache[numcached] = loadchunk(offset);
+        loadchunk(&cache[numcached], offset);
         numcached++;
-        return cache[numcached - 1];
+        return &cache[numcached - 1];
     } else {
-        unloadchunk(cache[0]);
+        unloadchunk(&cache[0]);
         for(int i=0; i < (MAX_CACHED_CHUNKS - 1); i++) {
             cache[i] = cache[i + 1];
         }
-        cache[MAX_CACHED_CHUNKS - 1] = loadchunk(offset);
-        return cache[MAX_CACHED_CHUNKS - 1];
+        loadchunk(&cache[MAX_CACHED_CHUNKS - 1], offset);
+        return &cache[MAX_CACHED_CHUNKS - 1];
     }
 }
 
-chunk loadchunk(in2d offset)
+void loadchunk(chunk* toload, in2d offset)
 {
-    chunk toload;
-    toload.offset = offset;
+    toload->offset = offset;
     /* TODO (Simon#1#): try to load chunk from file and only generate otherwise*/
 
     for(int i=0; i < CHUNK_SIZE_Y; i++) {
@@ -57,17 +55,13 @@ chunk loadchunk(in2d offset)
             chunkcoord.X = n;
             chunkcoord.Y = i;
 
-            toload.data[chunkcoord.X][chunkcoord.Y] = genworldblock(chunk2world(chunkcoord,
+            toload->data[chunkcoord.X][chunkcoord.Y] = genworldblock(chunk2world(chunkcoord,
                     offset));
         }
     }
-
-    toload.isloaded = TRUE;
-
-    return toload;
 }
 
-void unloadchunk(chunk tounload)
+void unloadchunk(chunk* tounload)
 {
     /* TODO (Simon#1#): make sure the chunk is saved */
     return;
